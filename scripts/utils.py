@@ -3,6 +3,12 @@ import numpy as np
 import settings as set
 
 
+"""
+AUX FUNCTIONS
+"""
+
+
+
 def read_garmin():
     """
     Function that read directly the garmin csv 

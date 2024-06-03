@@ -315,33 +315,37 @@ def run_eng_function(path):
 
 	run_data = load_data(path)
 
+	# Get Location and Drop Title
+	run_data['location'] = run_data['title'].apply(lambda x: x.split('Running')[0])
+
 	# Remove unnecessary columns
 	run_cols_to_drop = []
 	for col in ['best_lap_time',
-	            'favorite',
-	            'avg_stroke_rate',
-	            'total_reps',
-	            'surface_interval',
-	            'decompression',
-	            'flow',
-	            'dive_time',
-	            'avg._swolf',
-	            'avg_vertical_ratio',
-	            'avg_vertical_oscillation',
-	            'avg_ground_contact_time',
-	            'training_stress_score®',
-	            'avg_power',
-	            'max_power',
-	            'grit',
-	            'flow']:
-	    if col in run_data.columns:
-	        run_cols_to_drop.append(col)
+		'favorite',
+		'avg_stroke_rate',
+		'total_reps',
+		'surface_interval',
+		'decompression',
+		'flow',
+		'dive_time',
+		'avg._swolf',
+		'avg_vertical_ratio',
+		'avg_vertical_oscillation',
+		'avg_ground_contact_time',
+		'training_stress_score®',
+		'avg_power',
+		'max_power',
+		'grit',
+		'flow',
+		'title']:
+		if col in run_data.columns:
+			run_cols_to_drop.append(col)
 
 	run_data = run_data.drop(columns=run_cols_to_drop)
 
 	# NaN when diff temp is 0
 	if 'max_temp' and 'min_temp' in run_data.columns:
-	    run_data = clean_temp_zero_diff(run_data)   
+		run_data = clean_temp_zero_diff(run_data)   
 
 	# NaN when _hr features less than 60
 	run_data = clean_hr_under60(run_data)
@@ -352,15 +356,12 @@ def run_eng_function(path):
 	# Nan when 0 in avg_stride_length
 	run_data = clean_avg_str_length0(run_data)
 
-	# Get Location and Drop Title
-	run_data['location'] = run_data['title'].apply(lambda x: x.split('Running')[0])
+	return run_data
 
-	run_data = run_data.drop(columns=['title'])
+
+
 
 	
-
-
-
 
 
 
